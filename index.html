@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jack Hovanec</title>
+  <meta name="description" content="Jack Hovanec — Integrated Engineering & Business at Purdue University.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top">JH</a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">Purdue University · Integrated Engineering &amp; Business</p>
+      <h1>Hi, I'm Jack Hovanec.</h1>
+      <p class="lede">I like building things that work in the real world — from cooking pans for women in India to software that automates the busywork. I'm looking for a business-focused internship for summer 2027.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">See my work</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <div class="about-grid">
+        <p>I'm a freshman at Purdue studying Integrated Engineering &amp; Business (GPA 3.87), originally from Indianapolis. At Roncalli High School I earned Academic All-State Gold and the All-State Athletic Award in 2025.</p>
+        <ul class="facts">
+          <li><span>School</span>Purdue University</li>
+          <li><span>Major</span>Integrated Engineering &amp; Business</li>
+          <li><span>Hometown</span>Indianapolis, IN</li>
+          <li><span>Seeking</span>Summer 2027 internship</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="tag">Purdue EPICS</p>
+          <h3>Tawa design for women in India</h3>
+          <p>I lead semester goals on weight, cost and safety for a cooking pan used by women entrepreneurs in India, using ANSYS for materials analysis.</p>
+        </article>
+        <article class="card">
+          <p class="tag">Python · Automation</p>
+          <h3>Internship outreach agent</h3>
+          <p>An AI agent that finds people at Indianapolis companies, logs them in a Google Sheet and drafts personalized emails for me to review.</p>
+        </article>
+        <article class="card">
+          <p class="tag">Python · Video</p>
+          <h3>Stream clipping agent</h3>
+          <p>Finds the best moments in permitted live streams, cuts them into vertical short-form clips with captions, and reports on viewer retention.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <h2>Experience</h2>
+      <ol class="timeline">
+        <li>
+          <div class="when">2025 – 26</div>
+          <div><h3>Positional Coach · Team Indiana Volleyball Club</h3><p>Helped start the club's first boys program.</p></div>
+        </li>
+        <li>
+          <div class="when">Summer 2024</div>
+          <div><h3>Engineering &amp; Shop Intern · Deany Equipment Company</h3><p>Engine diagnostics, parts ordering and delivery logistics.</p></div>
+        </li>
+        <li>
+          <div class="when">2022 – now</div>
+          <div><h3>Office Intern · Hovanec Law</h3><p>Filing, new-client documents and handling confidential information.</p></div>
+        </li>
+        <li>
+          <div class="when">2021 – now</div>
+          <div><h3>Operations Assistant · Edible Arrangements</h3><p>Delivery routing and high-volume seasonal orders.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="contact" class="section contact">
+      <h2>Let's talk</h2>
+      <p>Open to summer 2027 internships in any industry. The best way to reach me:</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:jack.hovanec07@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/feed/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Jack Hovanec</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
