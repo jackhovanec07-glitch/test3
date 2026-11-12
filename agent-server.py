@@ -24,8 +24,13 @@ AGENT_DIR = os.path.join(os.path.dirname(HERE), "test_1", "internship-agent")
 PROJECTS = os.path.join(AGENT_DIR, "projects.json")
 HUNTER = os.path.join(AGENT_DIR, "hunter.py")
 PORT = 8765
+SITE_FILES = {"/": "index.html", "/index.html": "index.html", "/style.css": "style.css",
+              "/agents.js": "agents.js"}
+TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript"}
 ALLOWED_ORIGINS = {
     "https://jackhovanec07-glitch.github.io",
+    "http://127.0.0.1:8765",
+    "http://localhost:8765",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 }
@@ -86,9 +91,20 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if not self._origin_ok():
-            return self._json(403, {"error": "Not allowed"})
         path = self.path.split("?")[0]
+        if path in SITE_FILES:  # the website itself, so it also works at http://127.0.0.1:8765
+            name = SITE_FILES[path]
+            with open(os.path.join(HERE, name), "rb") as f:
+                body = f.read()
+            self.send_response(200)
+            self.send_header("Content-Type", TYPES[os.path.splitext(name)[1]])
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            return self.wfile.write(body)
+        # Browsers send Origin on every cross-site request; none means same page or this PC
+        if self.headers.get("Origin") is not None and not self._origin_ok():
+            return self._json(403, {"error": "Not allowed"})
         if path == "/api/network":
             with _lock:
                 return self._json(200, public_view(read_projects()))
@@ -132,6 +148,6 @@ class Server(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 if __name__ == "__main__":
     with Server(("127.0.0.1", PORT), Handler) as httpd:
-        print("Agents are connected. Open your website and enter your code.")
+        print(f"Agents are connected. Your site with agents: http://127.0.0.1:{PORT}/  (enter your code at the bottom)")
         print("Keep this window open while you use the Agents section; close it to stop.")
         httpd.serve_forever()

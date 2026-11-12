@@ -4,7 +4,8 @@
 // The real protection is that the agents only answer from this computer (agent-server.py).
 (function () {
   var CODE_HASH = "488a33f1de72566bba0d9255eb057f2b52e94d20d71ccc94e15c7e76ddb21db5";
-  var API = "http://127.0.0.1:8765/api/network";
+  // Opened from Start Agents.bat (port 8765) -> same server; from GitHub -> reach this PC's server
+  var API = (location.port === "8765" ? "" : "http://127.0.0.1:8765") + "/api/network";
 
   var portfolio = document.getElementById("top");
   var agents = document.getElementById("agents");
@@ -73,7 +74,7 @@
     list.innerHTML = "";
     var p = document.createElement("p");
     p.className = "muted";
-    p.textContent = "Can't reach your agents. On your computer, double-click \"Start Agents.bat\" in the test3 folder, then press Refresh. If your browser asks to allow access to devices on your network, choose Allow.";
+    p.textContent = "Can't reach your agents. On your computer, double-click \"Start Agents.bat\" in the test3 folder. It opens your site at 127.0.0.1:8765, where the agents always connect. (On the GitHub link, your browser may also ask to allow access to devices on your network: choose Allow, then press Refresh.)";
     list.appendChild(p);
   }
 
