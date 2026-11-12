@@ -1,0 +1,371 @@
+{
+  "note": "Companies checked on every run (plus companies found in your chosen city). Add more lines in the same shape.",
+  "companies": [
+    {
+      "domain": "a16z.com",
+      "name": "Andreessen Horowitz",
+      "ats": "greenhouse",
+      "slug": "a16z"
+    },
+    {
+      "domain": "sequoiacap.com",
+      "name": "Sequoia Capital",
+      "ats": "ashby",
+      "slug": "sequoia"
+    },
+    {
+      "domain": "alixpartners.com",
+      "name": "AlixPartners",
+      "ats": "greenhouse",
+      "slug": "alixpartners"
+    },
+    {
+      "domain": "oliverwyman.com",
+      "name": "Oliver Wyman",
+      "ats": "lever",
+      "slug": "oliverwyman"
+    },
+    {
+      "domain": "point72.com",
+      "name": "Point72",
+      "ats": "greenhouse",
+      "slug": "point72"
+    },
+    {
+      "domain": "jumptrading.com",
+      "name": "Jump Trading",
+      "ats": "greenhouse",
+      "slug": "jumptrading"
+    },
+    {
+      "domain": "angellist.com",
+      "name": "AngelList",
+      "ats": "lever",
+      "slug": "angellist"
+    },
+    {
+      "domain": "carta.com",
+      "name": "Carta",
+      "ats": "greenhouse",
+      "slug": "carta"
+    },
+    {
+      "domain": "angi.com",
+      "name": "Angi",
+      "ats": "ashby",
+      "slug": "angi"
+    },
+    {
+      "domain": "greenlight.guru",
+      "name": "Greenlight Guru",
+      "ats": "greenhouse",
+      "slug": "greenlightguru"
+    },
+    {
+      "domain": "stripe.com",
+      "name": "Stripe",
+      "ats": "greenhouse",
+      "slug": "stripe"
+    },
+    {
+      "domain": "ramp.com",
+      "name": "Ramp",
+      "ats": "ashby",
+      "slug": "ramp"
+    },
+    {
+      "domain": "brex.com",
+      "name": "Brex",
+      "ats": "greenhouse",
+      "slug": "brex"
+    },
+    {
+      "domain": "mercury.com",
+      "name": "Mercury",
+      "ats": "greenhouse",
+      "slug": "mercury"
+    },
+    {
+      "domain": "robinhood.com",
+      "name": "Robinhood",
+      "ats": "greenhouse",
+      "slug": "robinhood"
+    },
+    {
+      "domain": "coinbase.com",
+      "name": "Coinbase",
+      "ats": "greenhouse",
+      "slug": "coinbase"
+    },
+    {
+      "domain": "affirm.com",
+      "name": "Affirm",
+      "ats": "greenhouse",
+      "slug": "affirm"
+    },
+    {
+      "domain": "chime.com",
+      "name": "Chime",
+      "ats": "greenhouse",
+      "slug": "chime"
+    },
+    {
+      "domain": "sofi.com",
+      "name": "SoFi",
+      "ats": "greenhouse",
+      "slug": "sofi"
+    },
+    {
+      "domain": "betterment.com",
+      "name": "Betterment",
+      "ats": "greenhouse",
+      "slug": "betterment"
+    },
+    {
+      "domain": "wealthfront.com",
+      "name": "Wealthfront",
+      "ats": "lever",
+      "slug": "wealthfront"
+    },
+    {
+      "domain": "nerdwallet.com",
+      "name": "NerdWallet",
+      "ats": "ashby",
+      "slug": "nerdwallet"
+    },
+    {
+      "domain": "plaid.com",
+      "name": "Plaid",
+      "ats": "ashby",
+      "slug": "plaid"
+    },
+    {
+      "domain": "clear.co",
+      "name": "Clearco",
+      "ats": "ashby",
+      "slug": "clearco"
+    },
+    {
+      "domain": "toasttab.com",
+      "name": "Toast",
+      "ats": "greenhouse",
+      "slug": "toast"
+    },
+    {
+      "domain": "klaviyo.com",
+      "name": "Klaviyo",
+      "ats": "greenhouse",
+      "slug": "klaviyo"
+    },
+    {
+      "domain": "zoominfo.com",
+      "name": "ZoomInfo",
+      "ats": "greenhouse",
+      "slug": "zoominfo"
+    },
+    {
+      "domain": "salesloft.com",
+      "name": "Salesloft",
+      "ats": "greenhouse",
+      "slug": "salesloft"
+    },
+    {
+      "domain": "gusto.com",
+      "name": "Gusto",
+      "ats": "greenhouse",
+      "slug": "gusto"
+    },
+    {
+      "domain": "faire.com",
+      "name": "Faire",
+      "ats": "greenhouse",
+      "slug": "faire"
+    },
+    {
+      "domain": "flexport.com",
+      "name": "Flexport",
+      "ats": "greenhouse",
+      "slug": "flexport"
+    },
+    {
+      "domain": "project44.com",
+      "name": "project44",
+      "ats": "greenhouse",
+      "slug": "project44"
+    },
+    {
+      "domain": "fourkites.com",
+      "name": "FourKites",
+      "ats": "greenhouse",
+      "slug": "fourkites"
+    },
+    {
+      "domain": "samsara.com",
+      "name": "Samsara",
+      "ats": "greenhouse",
+      "slug": "samsara"
+    },
+    {
+      "domain": "instacart.com",
+      "name": "Instacart",
+      "ats": "greenhouse",
+      "slug": "instacart"
+    },
+    {
+      "domain": "lyft.com",
+      "name": "Lyft",
+      "ats": "greenhouse",
+      "slug": "lyft"
+    },
+    {
+      "domain": "airbnb.com",
+      "name": "Airbnb",
+      "ats": "greenhouse",
+      "slug": "airbnb"
+    },
+    {
+      "domain": "pinterest.com",
+      "name": "Pinterest",
+      "ats": "greenhouse",
+      "slug": "pinterest"
+    },
+    {
+      "domain": "reddit.com",
+      "name": "Reddit",
+      "ats": "greenhouse",
+      "slug": "reddit"
+    },
+    {
+      "domain": "duolingo.com",
+      "name": "Duolingo",
+      "ats": "greenhouse",
+      "slug": "duolingo"
+    },
+    {
+      "domain": "squarespace.com",
+      "name": "Squarespace",
+      "ats": "greenhouse",
+      "slug": "squarespace"
+    },
+    {
+      "domain": "onepeloton.com",
+      "name": "Peloton",
+      "ats": "greenhouse",
+      "slug": "peloton"
+    },
+    {
+      "domain": "glossier.com",
+      "name": "Glossier",
+      "ats": "greenhouse",
+      "slug": "glossier"
+    },
+    {
+      "domain": "harrys.com",
+      "name": "Harry's",
+      "ats": "greenhouse",
+      "slug": "harrys"
+    },
+    {
+      "domain": "notion.so",
+      "name": "Notion",
+      "ats": "ashby",
+      "slug": "notion"
+    },
+    {
+      "domain": "figma.com",
+      "name": "Figma",
+      "ats": "greenhouse",
+      "slug": "figma"
+    },
+    {
+      "domain": "asana.com",
+      "name": "Asana",
+      "ats": "greenhouse",
+      "slug": "asana"
+    },
+    {
+      "domain": "smartsheet.com",
+      "name": "Smartsheet",
+      "ats": "greenhouse",
+      "slug": "smartsheet"
+    },
+    {
+      "domain": "databricks.com",
+      "name": "Databricks",
+      "ats": "greenhouse",
+      "slug": "databricks"
+    },
+    {
+      "domain": "snowflake.com",
+      "name": "Snowflake",
+      "ats": "ashby",
+      "slug": "snowflake"
+    },
+    {
+      "domain": "datadoghq.com",
+      "name": "Datadog",
+      "ats": "greenhouse",
+      "slug": "datadog"
+    },
+    {
+      "domain": "cloudflare.com",
+      "name": "Cloudflare",
+      "ats": "greenhouse",
+      "slug": "cloudflare"
+    },
+    {
+      "domain": "mongodb.com",
+      "name": "MongoDB",
+      "ats": "greenhouse",
+      "slug": "mongodb"
+    },
+    {
+      "domain": "twilio.com",
+      "name": "Twilio",
+      "ats": "greenhouse",
+      "slug": "twilio"
+    },
+    {
+      "domain": "okta.com",
+      "name": "Okta",
+      "ats": "greenhouse",
+      "slug": "okta"
+    },
+    {
+      "domain": "dropbox.com",
+      "name": "Dropbox",
+      "ats": "greenhouse",
+      "slug": "dropbox"
+    },
+    {
+      "domain": "scale.com",
+      "name": "Scale AI",
+      "ats": "greenhouse",
+      "slug": "scaleai"
+    },
+    {
+      "domain": "openai.com",
+      "name": "OpenAI",
+      "ats": "ashby",
+      "slug": "openai"
+    },
+    {
+      "domain": "anthropic.com",
+      "name": "Anthropic",
+      "ats": "greenhouse",
+      "slug": "anthropic"
+    },
+    {
+      "domain": "palantir.com",
+      "name": "Palantir",
+      "ats": "lever",
+      "slug": "palantir"
+    },
+    {
+      "domain": "spotify.com",
+      "name": "Spotify",
+      "ats": "lever",
+      "slug": "spotify"
+    }
+  ]
+}

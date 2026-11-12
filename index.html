@@ -139,6 +139,50 @@
           <span id="net-credits" class="muted"></span>
         </div>
       </article>
+
+      <article class="agent-card" id="apply-card">
+        <div class="agent-head">
+          <div>
+            <p class="tag">Applications</p>
+            <h2>Auto apply internships</h2>
+            <p class="muted">Each day it finds business internships, writes a cover letter for each, and logs them in a Google Sheet. Press "Fill application" and it fills out the form for you; you check it and press Submit.</p>
+          </div>
+          <span class="status" id="apply-status">Checking…</span>
+        </div>
+
+        <div class="apply-controls">
+          <label class="toggle big">
+            <input type="checkbox" id="apply-on" aria-label="Turn the auto apply agent on or off">
+            <span class="switch"></span>
+            <span id="apply-on-text">Agent off</span>
+          </label>
+          <form id="apply-settings" class="apply-settings" autocomplete="off">
+            <label>Location
+              <input id="apply-location" list="apply-places" placeholder="Indianapolis, IN">
+              <datalist id="apply-places">
+                <option value="Indianapolis, IN"></option>
+                <option value="Chicago, IL"></option>
+                <option value="New York, NY"></option>
+                <option value="Boston, MA"></option>
+                <option value="San Francisco, CA"></option>
+                <option value="Remote"></option>
+                <option value="Anywhere"></option>
+              </datalist>
+            </label>
+            <label class="check"><input type="checkbox" id="apply-remote"> Include remote</label>
+            <label>Per day <input id="apply-limit" type="number" min="1" max="10"></label>
+            <button class="btn" type="submit">Save</button>
+            <span id="apply-saved" class="muted" role="status"></span>
+          </form>
+          <a class="btn" id="apply-sheet" href="#" target="_blank" rel="noopener">Open Google Sheet ↗</a>
+        </div>
+
+        <h3 class="list-title">Ready for you <span id="apply-ready-count" class="muted"></span></h3>
+        <div id="apply-ready" class="apply-list"></div>
+
+        <h3 class="list-title">Recently applied <span id="apply-applied-count" class="muted"></span></h3>
+        <div id="apply-applied" class="apply-list compact"></div>
+      </article>
     </section>
   </main>
 

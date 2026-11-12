@@ -1,0 +1,4 @@
+# Private: answers, resume, cover letters, application queue, browser profile
+auto-apply/private/
+auto-apply/data/
+__pycache__/

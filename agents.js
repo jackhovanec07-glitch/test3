@@ -5,7 +5,8 @@
 (function () {
   var CODE_HASH = "488a33f1de72566bba0d9255eb057f2b52e94d20d71ccc94e15c7e76ddb21db5";
   // Opened from Start Agents.bat (port 8765) -> same server; from GitHub -> reach this PC's server
-  var API = (location.port === "8765" ? "" : "http://127.0.0.1:8765") + "/api/network";
+  var BASE = location.port === "8765" ? "" : "http://127.0.0.1:8765";
+  var API = BASE + "/api/network";
 
   var portfolio = document.getElementById("top");
   var agents = document.getElementById("agents");
@@ -32,6 +33,7 @@
     agents.hidden = false;
     window.scrollTo(0, 0);
     loadNetwork();
+    loadApply();
   }
 
   function showPortfolio() {
@@ -149,6 +151,166 @@
       })
       .catch(function () { creditsEl.textContent = "Couldn't check credits."; });
   });
+
+  // ---------- Auto apply internships ----------
+  var A = BASE + "/api/apply";
+  var aStatus = document.getElementById("apply-status");
+  var aOn = document.getElementById("apply-on");
+  var aOnText = document.getElementById("apply-on-text");
+  var aForm = document.getElementById("apply-settings");
+  var aLoc = document.getElementById("apply-location");
+  var aRemote = document.getElementById("apply-remote");
+  var aLimit = document.getElementById("apply-limit");
+  var aSaved = document.getElementById("apply-saved");
+  var aSheet = document.getElementById("apply-sheet");
+  var aReady = document.getElementById("apply-ready");
+  var aApplied = document.getElementById("apply-applied");
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function post(path, body) {
+    return fetch(A + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || "Failed"); return d; });
+    });
+  }
+
+  function meta(j) {
+    return [j.location, j.employees && (j.employees + " employees"), j.pay].filter(Boolean).join(" · ");
+  }
+
+  function jobRow(j, ready) {
+    var row = el("div", "job");
+    var top = el("div", "job-top");
+    var a = el("a", "job-title", j.company + " — " + j.title);
+    a.href = j.url; a.target = "_blank"; a.rel = "noopener";
+    top.appendChild(a);
+    if (!ready && j.applied_on) top.appendChild(el("span", "muted", "Applied " + j.applied_on));
+    row.appendChild(top);
+    row.appendChild(el("p", "job-meta", meta(j)));
+    if (!ready) return row;
+    if (j.about) row.appendChild(el("p", "job-about", j.about));
+
+    var actions = el("div", "job-actions");
+    var fill = el("button", "btn primary", "Fill application");
+    var letterBtn = el("button", "btn", "Cover letter");
+    var done = el("button", "btn", "Mark applied");
+    var skip = el("button", "btn", "Skip");
+    [fill, letterBtn, done, skip].forEach(function (b) { b.type = "button"; actions.appendChild(b); });
+    row.appendChild(actions);
+
+    fill.addEventListener("click", function () {
+      fill.disabled = true;
+      fill.textContent = "Opening…";
+      post("/fill", { id: j.id }).then(function () {
+        fill.textContent = "Opened in Chrome — check it and press Submit";
+      }).catch(function (e) {
+        fill.disabled = false;
+        fill.textContent = "Fill application";
+        alert(e.message);
+      });
+    });
+
+    var letterBox = null;
+    letterBtn.addEventListener("click", function () {
+      if (letterBox) { letterBox.remove(); letterBox = null; return; }
+      fetch(A + "/letter?id=" + encodeURIComponent(j.id), { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function (d) {
+          letterBox = el("div", "letter", d.letter);
+          var copy = el("button", "btn", "Copy");
+          copy.type = "button";
+          copy.style.marginTop = "10px";
+          copy.addEventListener("click", function () {
+            navigator.clipboard.writeText(d.letter).then(function () { copy.textContent = "Copied"; });
+          });
+          letterBox.appendChild(el("br"));
+          letterBox.appendChild(copy);
+          row.appendChild(letterBox);
+        })
+        .catch(function () { alert("Couldn't load the cover letter."); });
+    });
+
+    function mark(status) {
+      post("/mark", { id: j.id, status: status }).then(renderApply).catch(function (e) { alert(e.message); });
+    }
+    done.addEventListener("click", function () { mark("applied"); });
+    skip.addEventListener("click", function () {
+      if (confirm("Skip " + j.company + " — " + j.title + "?")) mark("skipped");
+    });
+    return row;
+  }
+
+  function renderApply(d) {
+    aStatus.textContent = "Connected";
+    aStatus.className = "status on";
+    var s = d.settings;
+    aOn.disabled = false;
+    aOn.checked = s.agent_on;
+    aOnText.textContent = s.agent_on ? "Agent on" : "Agent off";
+    if (document.activeElement !== aLoc) aLoc.value = s.location;
+    aRemote.checked = s.remote_ok;
+    aLimit.value = s.daily_limit;
+    aSheet.href = s.sheet_url || "#";
+
+    aReady.innerHTML = "";
+    document.getElementById("apply-ready-count").textContent = "(" + d.ready.length + ")";
+    if (!d.ready.length) {
+      aReady.appendChild(el("p", null, s.agent_on
+        ? "Nothing waiting. New internships show up here after the daily run (8 AM)."
+        : "Turn the agent on and new internships will show up here after the daily run (8 AM)."));
+    }
+    d.ready.forEach(function (j) { aReady.appendChild(jobRow(j, true)); });
+
+    aApplied.innerHTML = "";
+    document.getElementById("apply-applied-count").textContent = "(" + d.applied_count + " total)";
+    if (!d.applied.length) aApplied.appendChild(el("p", null, "None yet."));
+    d.applied.forEach(function (j) { aApplied.appendChild(jobRow(j, false)); });
+  }
+
+  function applyOffline() {
+    aStatus.textContent = "Offline";
+    aStatus.className = "status off";
+    aOn.disabled = true;
+    aReady.innerHTML = "";
+    aReady.appendChild(el("p", null, "Can't reach your computer. Double-click \"Start Agents.bat\" in the test3 folder."));
+    aApplied.innerHTML = "";
+  }
+
+  function loadApply() {
+    fetch(A, { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(renderApply)
+      .catch(applyOffline);
+  }
+
+  aOn.addEventListener("change", function () {
+    var want = aOn.checked;
+    aOnText.textContent = want ? "Agent on" : "Agent off";
+    post("/settings", { agent_on: want }).then(renderApply).catch(function (e) {
+      aOn.checked = !want;
+      aOnText.textContent = aOn.checked ? "Agent on" : "Agent off";
+      alert(e.message);
+    });
+  });
+
+  aForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    aSaved.textContent = "Saving…";
+    post("/settings", { location: aLoc.value, remote_ok: aRemote.checked, daily_limit: aLimit.value })
+      .then(function (d) { renderApply(d); aSaved.textContent = "Saved"; setTimeout(function () { aSaved.textContent = ""; }, 2000); })
+      .catch(function (err) { aSaved.textContent = err.message; });
+  });
+
+  document.getElementById("net-refresh").addEventListener("click", loadApply);
 
   var saved = null;
   try { saved = sessionStorage.getItem("agents"); } catch (e) {}

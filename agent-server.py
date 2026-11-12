@@ -18,11 +18,16 @@ import socketserver
 import subprocess
 import sys
 import threading
+import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENT_DIR = os.path.join(os.path.dirname(HERE), "test_1", "internship-agent")
 PROJECTS = os.path.join(AGENT_DIR, "projects.json")
 HUNTER = os.path.join(AGENT_DIR, "hunter.py")
+APPLY_DIR = os.path.join(HERE, "auto-apply")
+sys.path.insert(0, APPLY_DIR)
+import agent as apply_agent  # noqa: E402  (auto-apply/agent.py)
+
 PORT = 8765
 SITE_FILES = {"/": "index.html", "/index.html": "index.html", "/style.css": "style.css",
               "/agents.js": "agents.js", "/motion.js": "motion.js",
@@ -51,6 +56,20 @@ def write_projects(data):
         json.dump(data, f, indent=2)
         f.write("\n")
     os.replace(tmp, PROJECTS)
+
+
+def apply_view():
+    """Auto Apply Internships: settings plus the jobs waiting for Jack and the recent ones he applied to."""
+    s = apply_agent.settings()
+    queue = list(apply_agent.load(apply_agent.QUEUE, {}).values())
+    fields = ("id", "company", "title", "location", "employees", "about", "pay", "url", "ready_on", "applied_on")
+    ready = sorted((q for q in queue if q["status"] == "ready"), key=lambda q: q.get("ready_on", ""), reverse=True)
+    applied = sorted((q for q in queue if q["status"] == "applied"), key=lambda q: q.get("applied_on", ""), reverse=True)
+    return {"settings": {k: s[k] for k in ("agent_on", "location", "remote_ok", "daily_limit", "sheet_url")},
+            "ready": [{k: q.get(k, "") for k in fields} for q in ready],
+            "applied": [{k: q.get(k, "") for k in fields} for q in applied[:10]],
+            "applied_count": len(applied),
+            "waiting_review": sum(1 for q in queue if q["status"] == "found")}
 
 
 def public_view(data):
@@ -118,16 +137,36 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 return self._json(200, json.loads(out.stdout))
             except (subprocess.SubprocessError, json.JSONDecodeError, OSError):
                 return self._json(502, {"error": "Couldn't check Hunter credits"})
+        if path == "/api/apply":
+            with _lock:
+                return self._json(200, apply_view())
+        if path == "/api/apply/letter":
+            jid = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query).get("id", [""])[0]
+            letter = os.path.join(apply_agent.LETTERS, f"{os.path.basename(jid)}.txt")
+            if not os.path.exists(letter):
+                return self._json(404, {"error": "No cover letter for that internship"})
+            with open(letter, encoding="utf-8") as f:
+                return self._json(200, {"id": jid, "letter": f.read()})
         return self._json(404, {"error": "Not found"})
 
     def do_POST(self):
         if not self._origin_ok():
             return self._json(403, {"error": "Not allowed"})
-        if self.path.split("?")[0] != "/api/network/toggle":
-            return self._json(404, {"error": "Not found"})
+        path = self.path.split("?")[0]
         try:
             length = int(self.headers.get("Content-Length", "0"))
             req = json.loads(self.rfile.read(min(length, 10000)) or b"{}")
+        except (ValueError, json.JSONDecodeError):
+            return self._json(400, {"error": "Send JSON"})
+        if path == "/api/apply/settings":
+            return self._apply_settings(req)
+        if path == "/api/apply/mark":
+            return self._apply_mark(req)
+        if path == "/api/apply/fill":
+            return self._apply_fill(req)
+        if path != "/api/network/toggle":
+            return self._json(404, {"error": "Not found"})
+        try:
             index = int(req["index"])
             agent_on = bool(req["agent_on"])
         except (ValueError, KeyError, TypeError, json.JSONDecodeError):
@@ -139,6 +178,56 @@ class Handler(http.server.BaseHTTPRequestHandler):
             data["projects"][index]["agent_on"] = agent_on
             write_projects(data)
             return self._json(200, public_view(data))
+
+    # ---------- Auto Apply Internships ----------
+    def _apply_settings(self, req):
+        with _lock:
+            s = apply_agent.settings()
+            if "agent_on" in req:
+                s["agent_on"] = bool(req["agent_on"])
+            if "location" in req:
+                loc = str(req["location"]).strip()[:80]
+                if not loc:
+                    return self._json(400, {"error": "Enter a city, e.g. Indianapolis, IN"})
+                s["location"] = loc
+            if "remote_ok" in req:
+                s["remote_ok"] = bool(req["remote_ok"])
+            if "daily_limit" in req:
+                try:
+                    s["daily_limit"] = max(1, min(10, int(req["daily_limit"])))
+                except (TypeError, ValueError):
+                    return self._json(400, {"error": "Daily limit must be a number"})
+            apply_agent.save(apply_agent.SETTINGS, s)
+            return self._json(200, apply_view())
+
+    def _apply_mark(self, req):
+        status = req.get("status")
+        if status not in ("applied", "skipped", "ready"):
+            return self._json(400, {"error": "status must be applied, skipped or ready"})
+        with _lock:
+            queue = apply_agent.load(apply_agent.QUEUE, {})
+            q = queue.get(str(req.get("id")))
+            if not q:
+                return self._json(404, {"error": "No internship with that id"})
+            q["status"] = status
+            if status == "applied":
+                q["applied_on"] = apply_agent.today()
+            if status == "skipped":
+                q["skip_reason"] = "Skipped by Jack on the website"
+            apply_agent.save(apply_agent.QUEUE, queue)
+            return self._json(200, apply_view())
+
+    def _apply_fill(self, req):
+        jid = str(req.get("id", ""))
+        with _lock:
+            if jid not in apply_agent.load(apply_agent.QUEUE, {}):
+                return self._json(404, {"error": "No internship with that id"})
+        try:
+            subprocess.Popen([sys.executable, os.path.join(APPLY_DIR, "autofill.py"), jid], cwd=APPLY_DIR,
+                             creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0))
+        except OSError as e:
+            return self._json(500, {"error": f"Couldn't start the autofill helper: {e}"})
+        return self._json(200, {"ok": True})
 
     def log_message(self, fmt, *args):
         pass  # keep the window quiet

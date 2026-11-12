@@ -168,6 +168,32 @@ button.btn { background: var(--surface); color: var(--text); font: inherit; font
 .toggle input:checked + .switch { background: var(--accent); }
 .toggle input:checked + .switch::after { transform: translateX(18px); }
 .toggle input:focus-visible + .switch { outline: 2px solid var(--accent); outline-offset: 2px; }
+.agent-card + .agent-card { margin-top: 24px; }
+.apply-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.toggle.big { font-size: 15px; font-weight: 600; color: var(--text); }
+.apply-settings { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 14px; color: var(--muted); }
+.apply-settings label { display: inline-flex; align-items: center; gap: 8px; }
+.apply-settings input:not([type=checkbox]) {
+  padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit;
+}
+#apply-location { width: 170px; }
+#apply-limit { width: 64px; }
+.apply-settings .btn { padding: 8px 16px; }
+.list-title { margin: 24px 0 8px; font-size: 16px; }
+.apply-list > p { margin: 8px 0; color: var(--muted); font-size: 14px; }
+.job { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.job:last-child { border-bottom: 0; }
+.job-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.job-title { font-weight: 600; text-decoration: none; }
+.job-title:hover { color: var(--accent); }
+.job-meta { font-size: 13px; color: var(--muted); margin: 2px 0 6px; }
+.job-about { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+.job-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.job-actions .btn { padding: 6px 14px; font-size: 14px; }
+.letter { white-space: pre-wrap; font-size: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-top: 10px; }
+.apply-list.compact .job { padding: 8px 0; }
+.apply-list.compact .job-meta { margin: 0; }
+
 .agent-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
 .agent-actions .muted { font-size: 14px; }
 
