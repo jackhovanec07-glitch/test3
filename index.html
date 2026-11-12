@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="progress" aria-hidden="true"></div>
   <header class="nav">
     <a class="brand" href="#top">JH</a>
     <nav>
@@ -22,18 +23,23 @@
   </header>
 
   <main id="top">
-    <section class="hero">
-      <p class="eyebrow">Purdue University · Integrated Engineering &amp; Business</p>
-      <h1>Hi, I'm Jack Hovanec.</h1>
-      <p class="lede">I like building things that work in the real world — from cooking pans for women in India to software that automates the busywork. I'm looking for a business-focused internship for summer 2027.</p>
-      <div class="cta">
-        <a class="btn primary" href="#projects">See my work</a>
-        <a class="btn" href="#contact">Get in touch</a>
+    <section class="hero hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow intro" style="--d:0">Purdue University · Integrated Engineering &amp; Business</p>
+        <h1 class="intro" style="--d:1">Hi, I'm Jack Hovanec.</h1>
+        <p class="lede intro" style="--d:2">I like building things that work in the real world — from cooking pans for women in India to software that automates the busywork. I'm looking for a business-focused internship for summer 2027.</p>
+        <div class="cta intro" style="--d:3">
+          <a class="btn primary" href="#projects">See my work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
       </div>
+      <figure class="photo hero-photo intro" style="--d:2">
+        <img src="images/lake.jpg" alt="Jack crouching on a rock beside a lake with misty hills behind" width="775" height="1033" data-parallax="0.08">
+      </figure>
     </section>
 
     <section id="about" class="section">
-      <h2>About</h2>
+      <h2 class="reveal">About</h2>
       <div class="about-grid">
         <p>I'm a freshman at Purdue studying Integrated Engineering &amp; Business (GPA 3.87), originally from Indianapolis. At Roncalli High School I earned Academic All-State Gold and the All-State Athletic Award in 2025.</p>
         <ul class="facts">
@@ -46,7 +52,11 @@
     </section>
 
     <section id="projects" class="section">
-      <h2>Projects</h2>
+      <h2 class="reveal">Projects</h2>
+      <figure class="photo wide reveal-photo">
+        <img src="images/lab.jpg" alt="Jack and a classmate smiling in a Purdue lab" width="1179" height="765" loading="lazy" data-parallax="0.05">
+        <figcaption>In the lab at Purdue</figcaption>
+      </figure>
       <div class="cards">
         <article class="card">
           <p class="tag">Purdue EPICS</p>
@@ -67,7 +77,8 @@
     </section>
 
     <section id="experience" class="section">
-      <h2>Experience</h2>
+      <h2 class="reveal">Experience</h2>
+      <div class="exp-grid">
       <ol class="timeline">
         <li>
           <div class="when">2025 – 26</div>
@@ -86,10 +97,15 @@
           <div><h3>Operations Assistant · Edible Arrangements</h3><p>Delivery routing and high-volume seasonal orders.</p></div>
         </li>
       </ol>
+      <figure class="photo tall reveal-photo">
+        <img src="images/volleyball.jpg" alt="Jack and three Roncalli teammates holding the 2025 IHSAA boys volleyball state champion trophy" width="689" height="1033" loading="lazy">
+        <figcaption>2025 IHSAA Boys Volleyball State Champions</figcaption>
+      </figure>
+      </div>
     </section>
 
     <section id="contact" class="section contact">
-      <h2>Let's talk</h2>
+      <h2 class="reveal">Let's talk</h2>
       <p>Open to summer 2027 internships in any industry. The best way to reach me:</p>
       <div class="cta">
         <a class="btn primary" href="mailto:jack.hovanec07@gmail.com">Email me</a>
@@ -136,6 +152,7 @@
 
   <footer>© <span id="year"></span> Jack Hovanec</footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="motion.js"></script>
   <script src="agents.js"></script>
 </body>
 </html>

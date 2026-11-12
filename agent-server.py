@@ -25,8 +25,11 @@ PROJECTS = os.path.join(AGENT_DIR, "projects.json")
 HUNTER = os.path.join(AGENT_DIR, "hunter.py")
 PORT = 8765
 SITE_FILES = {"/": "index.html", "/index.html": "index.html", "/style.css": "style.css",
-              "/agents.js": "agents.js"}
-TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript"}
+              "/agents.js": "agents.js", "/motion.js": "motion.js",
+              "/images/lake.jpg": "images/lake.jpg", "/images/lab.jpg": "images/lab.jpg",
+              "/images/volleyball.jpg": "images/volleyball.jpg"}
+TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
+         ".jpg": "image/jpeg"}
 ALLOWED_ORIGINS = {
     "https://jackhovanec07-glitch.github.io",
     "http://127.0.0.1:8765",

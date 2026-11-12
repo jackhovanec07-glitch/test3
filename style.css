@@ -83,6 +83,57 @@ h3 { font-size: 18px; margin: 0 0 6px; }
 
 .contact p { color: var(--muted); margin: 0 0 24px; }
 
+/* ---------- Photos ---------- */
+.hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center; padding-top: 80px; }
+.photo { margin: 0; position: relative; }
+.photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo figcaption { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+.hero-photo { aspect-ratio: 4 / 5; isolation: isolate; }
+.hero-photo::before {
+  content: ""; position: absolute; inset: 18px -18px -18px 18px;
+  border: 2px solid var(--accent); border-radius: 22px; z-index: -1;
+}
+.hero-photo img { border-radius: 22px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
+
+.photo.wide { margin: 0 0 32px; }
+.photo.wide, .photo.tall { overflow: visible; }
+.photo.wide img { aspect-ratio: 16 / 8; border-radius: 18px; object-position: 50% 45%; }
+.photo.tall img { aspect-ratio: 3 / 4.2; border-radius: 18px; }
+
+.exp-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: start; }
+.exp-grid .photo { position: sticky; top: 90px; }
+
+/* ---------- Scroll progress bar ---------- */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 20;
+  background: var(--accent); transform-origin: 0 50%; transform: scaleX(0);
+}
+
+/* ---------- Motion (only when JS is on and motion isn't reduced) ---------- */
+.motion .intro { opacity: 0; transform: translateY(24px); animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--d) * 120ms + 100ms); }
+.motion .hero-photo.intro { transform: translateY(40px) rotate(2deg) scale(.96); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+.motion .reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--stagger, 0ms);
+}
+.motion .reveal.in { opacity: 1; transform: none; }
+
+/* Photos wipe open from the bottom and settle from a slight zoom */
+.motion .reveal-photo img {
+  clip-path: inset(100% 0 0 0); transform: scale(1.25);
+  transition: clip-path 1.2s cubic-bezier(.7,0,.2,1), transform 1.6s cubic-bezier(.2,.7,.2,1);
+}
+.motion .reveal-photo.in img { clip-path: inset(0 0 0 0); transform: scale(1.12); }
+.motion [data-parallax] { translate: 0 var(--py, 0px); }
+.motion .reveal-photo figcaption { opacity: 0; transition: opacity .6s ease .8s; }
+.motion .reveal-photo.in figcaption { opacity: 1; }
+.motion .photo.wide, .motion .photo.tall { overflow: hidden; border-radius: 18px; }
+.motion .photo.wide figcaption, .motion .photo.tall figcaption { position: absolute; left: 14px; bottom: 12px; margin: 0; padding: 4px 10px; border-radius: 999px; background: rgba(0,0,0,.55); color: #fff; }
+
 [hidden] { display: none !important; }
 .muted { color: var(--muted); }
 
@@ -121,6 +172,11 @@ button.btn { background: var(--surface); color: var(--text); font: inherit; font
 .agent-actions .muted { font-size: 14px; }
 
 @media (max-width: 640px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; padding-top: 48px; }
+  .hero-photo { max-width: 300px; margin-right: 18px; }
+  .exp-grid { grid-template-columns: 1fr; gap: 32px; }
+  .exp-grid .photo { position: relative; top: auto; }
+  .photo.wide img { aspect-ratio: 4 / 3; }
   .agent-head { flex-direction: column; gap: 12px; }
   .agent-card { padding: 20px; }
 }
