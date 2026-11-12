@@ -98,7 +98,44 @@
     </section>
   </main>
 
+  <main id="agents" class="agents" hidden>
+    <section class="hero small">
+      <p class="eyebrow">Private</p>
+      <h1>My agents</h1>
+      <p class="lede">These run on my computer. Start <strong>Start Agents.bat</strong> in the test3 folder to connect them.</p>
+      <button class="btn" id="lock" type="button">Lock &amp; go back</button>
+    </section>
+
+    <section class="section">
+      <article class="agent-card">
+        <div class="agent-head">
+          <div>
+            <p class="tag">Networking</p>
+            <h2>Internship outreach agent</h2>
+            <p class="muted">Finds people at Indianapolis companies, logs them in a Google Sheet and drafts emails in Gmail for me to review.</p>
+          </div>
+          <span class="status" id="net-status">Checking…</span>
+        </div>
+        <div id="net-projects" class="projects"></div>
+        <div class="agent-actions">
+          <button class="btn" id="net-refresh" type="button">Refresh</button>
+          <button class="btn" id="net-credits-btn" type="button">Check Hunter credits</button>
+          <span id="net-credits" class="muted"></span>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <section class="code-box" id="code-box" aria-label="Enter access code">
+    <form id="code-form" autocomplete="off">
+      <input id="code" type="password" inputmode="numeric" maxlength="8" placeholder="Code" aria-label="Access code">
+      <button class="btn" type="submit">Enter</button>
+    </form>
+    <p id="code-msg" class="muted" role="status"></p>
+  </section>
+
   <footer>© <span id="year"></span> Jack Hovanec</footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="agents.js"></script>
 </body>
 </html>
